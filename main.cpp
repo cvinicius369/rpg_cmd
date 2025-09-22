@@ -46,7 +46,7 @@ class Entity{
 
 class Player : public Entity{
     private:
-        bool supreme_mode = false;
+        bool supreme_mode = false, colarDoSange = false, escudoDivino = false, espadaSombria = false;
 
         void getSupremeMode(){
             int bonusSupreme = 50;
@@ -77,8 +77,7 @@ class Player : public Entity{
         }
         double basicAttack(double bonus){ 
             counter++;
-            if(counter >= 10){ 
-            }
+            if(counter >= 10){ ultimateActivated = true; counter = 0; }
             return attack + ((bonus * attack) / 100); 
         }
         void ultimate(bool typeAtk, bool typeHp, bool typeDef){
@@ -90,9 +89,11 @@ class Player : public Entity{
             basicAttack(0);
             attack = tempAtk; health = tempHp, defense = tempDef;
         }
-        void obtainCoins(double qtdCoins){ coins += qtdCoins; }
-        void obtainRubys(double qtdRubys){ rubys += qtdRubys; }
-        void obtainXP(double qtdXP){ experience += qtdXP; }
+        void obtainAttribute(double qtd, bool isCoin, bool isRuby, bool isXp){
+            if(isCoin){ coins += qtd; }
+            if(isRuby){ rubys += qtd; }
+            if(isXp){ experience += qtd; }
+        }
 };
 
 class Enemies : public Entity{
@@ -101,6 +102,9 @@ class Enemies : public Entity{
             string nm, double atk, double hp, double df, double co, double rubs, int lvl, int xp,
             string etype
         ): Entity(nm, atk, hp, df, co, rubs, lvl, xp, etype){}
+
+        double basicAttack(double bonus){ return attack + ((bonus * attack) / 100); }
+        
 };
 
 class Skeleton : public Enemies{
@@ -110,25 +114,22 @@ class Skeleton : public Enemies{
         ): Enemies(nm, atk, hp, df, co, rubs, lvl, xp, "guerreiro"){}
 };
 
-class Main{
-    public:
-        int main(){
-            /*--[ MANIPULAVEL PELO PLAYER ]--*/
-            /* 
-                Uso do switchtype:
-                    quando o usuario atingir 10 no counter, o mesmo conseguirá utilizar a
-                    ultimate uma vez, a mesa terá os buffs de acordo com o tipo do player
-                Exemplo:
-                    mago:
-                        ultimate(true, false, true); isso faria o poder dele aumentar mas
-                        sua vida ainda será a mesma, isso funcionará em uma rodada apenas
-            
-            switch (option){
-                case 0: entityType = "guerreiro"; break;
-                case 1: entityType = "mago"; break;
-                case 2: entityType = "arqueiro"; break;
-                default: entityType = "guerreiro"; break;
-            }*/
-            return 0;
-        }
-};
+int main(){
+    /*--[ MANIPULAVEL PELO PLAYER ]--*/
+    /* 
+        Uso do switchtype:
+            quando o usuario atingir 10 no counter, o mesmo conseguirá utilizar a
+            ultimate uma vez, a mesa terá os buffs de acordo com o tipo do player
+        Exemplo:
+            mago:
+                ultimate(true, false, true); isso faria o poder dele aumentar mas
+                sua vida ainda será a mesma, isso funcionará em uma rodada apenas
+    
+    switch (option){
+        case 0: entityType = "guerreiro"; break;
+        case 1: entityType = "mago"; break;
+        case 2: entityType = "arqueiro"; break;
+        default: entityType = "guerreiro"; break;
+    }*/
+    return 0;
+}
